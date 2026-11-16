@@ -1,0 +1,6 @@
+{
+  "name": "AY STUDIO 91",
+  "description": "AY STUDIO 91 - Premium professional video editing services for Reels, YouTube, cinematic edits, and promotional brand videos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
