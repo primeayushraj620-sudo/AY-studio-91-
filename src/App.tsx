@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ServicesSection } from './components/ServicesSection';
@@ -23,6 +23,25 @@ export default function App() {
   const [selectedPlanChoice, setSelectedPlanChoice] = useState<PlanChoice>(
     'Premium Plan (₹1,499)'
   );
+
+  useEffect(() => {
+    const publicUrl = `${window.location.origin}${window.location.pathname}`;
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = publicUrl;
+
+    let ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+    if (!ogUrl) {
+      ogUrl = document.createElement('meta');
+      ogUrl.setAttribute('property', 'og:url');
+      document.head.appendChild(ogUrl);
+    }
+    ogUrl.content = publicUrl;
+  }, []);
 
   const handleSelectBriefCategory = (category: ServiceCategory) => {
     setSelectedCategory(category);

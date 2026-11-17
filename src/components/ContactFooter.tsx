@@ -1,7 +1,26 @@
-import { ArrowUpRight, MessageCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowUpRight, Check, Copy, MessageCircle } from 'lucide-react';
 import { STUDIO_INFO, buildWhatsAppUrl } from '../data/studioData';
 
 export function ContactFooter() {
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  useEffect(() => {
+    if (!linkCopied) return;
+    const timer = window.setTimeout(() => setLinkCopied(false), 2000);
+    return () => window.clearTimeout(timer);
+  }, [linkCopied]);
+
+  const handleCopyWebsiteLink = async () => {
+    try {
+      const publicUrl = `${window.location.origin}${window.location.pathname}`;
+      await navigator.clipboard.writeText(publicUrl);
+      setLinkCopied(true);
+    } catch {
+      setLinkCopied(false);
+    }
+  };
+
   const discussHref = buildWhatsAppUrl(
     'Hello AY STUDIO 91, I want to discuss a video editing order.'
   );
@@ -25,7 +44,7 @@ export function ContactFooter() {
                 Contact us directly on WhatsApp to share your raw footage, align on pacing and visual references, and confirm delivery timelines.
               </p>
 
-              <div className="mt-7">
+              <div className="mt-7 flex flex-wrap items-center gap-3">
                 <a
                   href={discussHref}
                   target="_blank"
@@ -35,6 +54,24 @@ export function ContactFooter() {
                   Chat &amp; Order on WhatsApp
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                 </a>
+
+                <button
+                  type="button"
+                  onClick={handleCopyWebsiteLink}
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900/60 px-5 py-3 text-sm font-medium text-zinc-100 transition-colors duration-150 hover:border-purple-400/60 hover:text-white whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
+                >
+                  {linkCopied ? (
+                    <>
+                      <Check className="h-4 w-4 text-emerald-400" aria-hidden="true" />
+                      Website Link Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4 text-purple-400" aria-hidden="true" />
+                      Copy Website Link
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 
